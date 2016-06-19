@@ -1,0 +1,68 @@
+<ons-page ng-controller="homeController">
+
+  <ons-toolbar>
+  <div class="left">
+      <ons-toolbar-button ng-click="open()">
+        <ons-icon icon="md-menu"></ons-icon>
+      </ons-toolbar-button>
+  </div>
+  </ons-toolbar>
+
+  <div><ons-progress-circular indeterminate></ons-progress-circular></div>
+
+  <div>
+  <ons-carousel direction="vertical" var="carousel" ons-postchange="console.log('Changed to ' + $event.activeIndex)" fullscreen swipeable auto-scroll overscrollable>
+    
+    <ons-carousel-item style="background-color: orange;">
+      
+      <ons-gesture-detector>
+          <div class="center" id="detect-area" ng-swiperight="loadsr()">
+            
+            <section>
+                <ons-button modifier="light" ng-repeat="topic in randomhunt.topics">
+                    {{topic.name}}
+                </ons-button>
+            </section>
+           
+            <h1>{{randomhunt.name}}<sup>{{randomhunt.votes_count}}</sup></h1>
+            <!-- split the name to smaller size in case > 30 chars -->
+            <h2>{{randomhunt.tagline}}<h2>
+           
+            <div id="thumb">
+                <a target='_blank' href={{randomhunt.redirect_url}}>
+                    <img ng-src="{{randomhunt.thumbnail.image_url}}">
+                </a>
+            </div>
+           
+            <div id="podcast" ng-if="randomhunt.hasAudio">
+                <audio controls>
+                  <source ng-src="{{randomhunt.audioUrl | trustUrl}}" type="audio/ogg">
+                    Your system does not support the audio element.
+                </audio>
+            </div>
+      
+            <ons-speed-dial position="bottom right" direction="up">
+              <ons-fab>
+                <ons-icon icon="md-share"></ons-icon>
+              </ons-fab>
+              <ons-speed-dial-item>
+                <ons-icon icon="md-twitter"></ons-icon>
+              </ons-speed-dial-item>
+              <ons-speed-dial-item>
+                <ons-icon icon="md-facebook"></ons-icon>
+              </ons-speed-dial-item>
+              <ons-speed-dial-item>
+                <ons-icon icon="md-google-plus"></ons-icon>
+              </ons-speed-dial-item>
+            </ons-speed-dial>
+      </div>
+      </ons-gesture-detector>
+
+    </ons-carousel-item>
+    
+    <ons-carousel-item style="background-color: #373B44;">
+    </ons-carousel-item>
+    </ons-carousel>
+</div>
+
+</ons-page>

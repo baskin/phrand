@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta http-equiv="Content-Security-Policy" content="default-src * data:; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+	<title>Hackers & Hunters</title>
+
+	<script src="components/loader.js"></script>
+	<script src="lib/angular/angular.min.js"></script>
+	<script src="lib/onsenui/js/onsenui.min.js"></script>
+	<script src="lib/onsenui/js/angular-onsenui.min.js"></script>
+	<script src="js/app.js"></script>
+	<script src="js/appController.js"></script>
+	<script src="js/homeController.js"></script>
+
+	<link rel="stylesheet" href="components/loader.css">
+	<link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
+	<link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body ng-controller="appController">
+	<ons-navigator var="nav">
+	<ons-page>
+		<ons-toolbar>
+			<div class="center">
+				<ons-icon icon="fa-product-hunt"></ons-icon>
+					Hackers & Hunters
+			</div>
+		</ons-toolbar>
+
+
+		<ons-list ng-controller="homeController" style="background-color: orange;">
+
+			<ons-list-item modifier="tappable" ng-show="randomhunt != null" fullscreen>
+				<section>
+					<ons-button modifier="light" ng-repeat="topic in randomhunt.topics">
+						{{topic.name}}
+					</ons-button>
+				</section>
+
+				<h1>{{randomhunt.name}}<sup>{{randomhunt.votes_count}}</sup></h1>
+				<!-- split the name to smaller size in case > 30 chars -->
+				<h2>{{randomhunt.tagline}}</h2>
+
+				<ons-button id="thumb" ng-click="gotoHunt(randomhunt)">
+					<img ng-src="{{randomhunt.thumbnail.image_url}}">
+				</ons-button>
+
+				<div id="podcast" ng-if="randomhunt.hasAudio">
+					<audio controls>
+						<source ng-src="{{randomhunt.audioUrl | trustUrl}}" type="audio/ogg">
+							Your device does not support the audio element.
+					</audio>
+				</div>
+			</ons-list-item>
+			
+			<ons-list-item ng-show="randomhunt == null">
+				<ons-icon icon="fa-refresh" spin="true"></ons-icon>
+				Hunting random product...
+			</ons-list-item>
+
+		</ons-list>
+	</ons-page>
+	</ons-navigator>
+</body>
+
+
+<ons-template id="hunt.html">
+	<ons-page>
+		<ons-toolbar>
+			<div class="left">
+				<ons-back-button>Back</ons-back-button>
+			</div>
+			<div class="center">
+				<ons-icon icon="product-hunt"></ons-icon>
+				{{ randomhunt.name }} 
+			</div>
+		</ons-toolbar>
+
+		<iframe width="100%" height="100%" frameborder="0" ng-src="{{randomhunt.redirect_url}}">
+		</iframe>
+
+		<ons-bottom-toolbar ng-click="loadUrl(randomhunt.redirect_url)">
+		<p style="text-align: center; margin-top: 12px;">
+			Please tap here if the hunt fails to load
+		</p>
+		</ons-bottom-toolbar>
+	</ons-page>
+</ons-template>
+
+</html>
