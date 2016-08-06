@@ -1,26 +1,78 @@
-html{font-size:110%;} 
-@media(min-width:20em){
-h1{color: #111; font-family: 'Helvetica Neue', sans-serif; font-size: 3em; font-weight: bold; margin-bottom: 0;  margin-left: 0.5em;  margin-right: 0.5em; letter-spacing: -1px; line-height: 0.75; text-align: center;}
-h2 { color: #fff; font-family: 'Open Sans', sans-serif; font-size: 1em; font-weight: 200; margin: 0.5em 1em 1em 1em; text-align: center; line-height: 0.85;}
-p { color: #685206; font-family: 'Helvetica Neue', sans-serif; font-size: 0.5em; margin: 0 0 24px; text-align: justify; text-justify: inter-word; }
-sup { color: #fff; font-family: 'Open Sans', sans-serif; font-size: 0.4em; font-weight: 200;}
+html{
+	font-size:110%;
+} 
+
+@media(min-width:20em) {
+
+	h1{
+		color: #111; 
+		font-family: 'Helvetica Neue', sans-serif; 
+		font-size: 3em; 
+		font-weight: bold; 
+		margin-bottom: 0;  
+		margin-left: 0.5em;  
+		margin-right: 0.5em; 
+		letter-spacing: -1px; 
+		line-height: 0.75; 
+		text-align: center;
+	}
+
+	h2 { 
+		color: #fff; 
+		font-family: 'Open Sans', sans-serif; 
+		font-size: 1em; 
+		font-weight: 200; 
+		margin: 0.5em 1em 1em 1em; 
+		text-align: center; line-height: 0.85;
+	}
+
+	p { 
+		color: #685206; 
+		font-family: 'Helvetica Neue', sans-serif; 
+		font-size: 0.5em; 
+		margin: 0 0 24px; 
+		text-align: justify; 
+		text-justify: inter-word; 
+	}
+
+	sup { 
+		color: #fff; 
+		font-family: 'Open Sans', sans-serif; 
+		font-size: 0.4em; 
+		font-weight: 200;
+	}
 }
-a {
-    display: inline-block;
-    border: 2px solid #ddd;
-    border-radius: 6px;
-    padding: 5px;
-    transition: 1s;
-}
-a:hover {
-    box-shadow: 0 0 2px 1px rgba
-    (0, 140, 186, 0.5);
-}
+
 section{
     display: none;
     padding: 8px
 }
-body {background-color: #373B44}
-#thumb {max-width:15em; max-height:10em;display:inline-block;position: relative;}
-#thumb img {height:100%; width:100%; margin:0 auto; opacity:0.5;}
-#podcast {margin-top:0.3em; }
+body {
+	background-color: #373B44
+}
+
+#refresh {
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#thumb {
+	max-width:     15em; 
+	max-height:    10em;
+	position:      relative;
+	border:        2px solid #ddd;
+    border-radius: 6px;
+    padding:       5px;
+}
+#thumb img {
+	height:  100%; 
+	width:   100%; 
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+	opacity: 0.5;
+}
+#podcast {
+	margin-top: 0.3em; 
+}
