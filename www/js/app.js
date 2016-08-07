@@ -1,4 +1,4 @@
-var module = ons.bootstrap('app', ['onsen']);
+var module = ons.bootstrap('app', ['onsen', 'ngStorage', 'ngMaterial', 'ngMessages', 'material.svgAssetsCache']);
 
 // filters
 module.filter('unescape', function() {

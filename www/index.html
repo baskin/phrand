@@ -8,6 +8,12 @@
 
 	<script src="components/loader.js"></script>
 	<script src="lib/angular/angular.min.js"></script>
+	<script src="lib/angular/angular-aria.min.js"></script>
+	<script src="lib/angular/angular-animate.min.js"></script>
+	<script src="lib/angular/angular-messages.min.js"></script>
+	<script src="http://ngmaterial.assets.s3.amazonaws.com/svg-assets-cache.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.7/angular-material.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.6/ngStorage.min.js"></script>
 	<script src="lib/onsenui/js/onsenui.min.js"></script>
 	<script src="lib/onsenui/js/angular-onsenui.min.js"></script>
 	<script src="js/app.js"></script>
@@ -17,26 +23,37 @@
 	<link rel="stylesheet" href="components/loader.css">
 	<link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
 	<link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
+	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
 	<link rel="stylesheet" href="css/style.css">
 </head>
 
 <body ng-controller="appController">
-	<ons-navigator var="nav">
+	<ons-navigator var="nav" animation="fade" page="welcome.html">
+	</ons-navigator>
+</body>
+
+<ons-template id="home.html">
 	<ons-page ng-controller="homeController">
 		<ons-toolbar>
-			<div class="left"> 
-				<ons-back-button>Back</ons-back-button>
+			<div class="left">
+                <ons-toolbar-button ng-click="carousel.prev()">
+                    <ons-icon icon="md-chevron-left"></ons-icon>
+                </ons-toolbar-button>
 			</div>
 			<div class="center">
 				<ons-icon icon="fa-product-hunt"></ons-icon>
-					Hackers & Hunters
+					Hackers & Hunters (Welcome {{$storage.username}})
 			</div>
+			<div class="right">
+		        <ons-toolbar-button ng-click="carousel.next()">
+		            <ons-icon icon="md-chevron-right"></ons-icon>
+		        </ons-toolbar-button>
+		    </div>
 		</ons-toolbar>
 
-		<ons-carousel direction="vertical" var="carousel" ons-postchange="console.log('Changed to ' + $event.activeIndex)" fullscreen swipeable auto-scroll overscrollable>
-
+		<ons-carousel direction="vertical" var="carousel" fullscreen swipeable auto-scroll>
 			<ons-carousel-item style="background-color: orange;">
-				<div class="center" id="hunt-summary" ng-show="randomhunt != null">
+				<div class="absolute-center" id="hunt-summary" ng-show="randomhunt != null">
 					<section>
 						<ons-button modifier="light" ng-repeat="topic in randomhunt.topics">
 							{{topic.name}}
@@ -47,7 +64,7 @@
 					<!-- split the name to smaller size in case > 30 chars -->
 					<h2>{{randomhunt.tagline}}</h2>
 
-					<ons-button id="thumb" ng-click="gotoHunt(randomhunt)">
+					<ons-button id="thumb" ng-click="carousel.setActiveIndex(1)"> <!-- ng-click="gotoHunt(randomhunt)" -->
 						<img ng-src="{{randomhunt.thumbnail.image_url}}">
 					</ons-button>
 
@@ -59,22 +76,34 @@
 					</div>
 				</div>
 
-
-				<div id="refresh" ng-show="randomhunt == null">
+				<div class="center" id="refresh" ng-show="randomhunt == null">
 					<ons-icon icon="fa-refresh" spin="true"></ons-icon>
 				</div>
 			</ons-carousel-item>
 			
-			<ons-carousel-item style="background-color: #373B44;">
+			<ons-carousel-item style="background-color: black;">
 				<iframe width="100%" height="100%" frameborder="0" ng-src="{{randomhunt.redirect_url | trustUrl}}">
 				</iframe>
 			</ons-carousel-item>
 
 		</ons-carousel>
 	</ons-page>
-	</ons-navigator>
-</body>
+</ons-template>
 
+<ons-template id="welcome.html">
+	<ons-page">
+      	<div class="absolute-center">
+        	<ons-input placeholder="What should we call you? " float ng-model="username"></ons-input>
+        	<br/>
+        	<ons-button ng-if="username == null || username == ''"  ng-click="nav.pushPage('home.html')">
+	        	Skip
+	        </ons-button>
+	        <ons-button ng-if="username != null && username != ''" ng-click="nav.pushPage('home.html'); $storage.username=username">
+	        	Continue
+	        </ons-button>
+      	</div>
+	</ons-page>
+</ons-template>
 
 <ons-template id="hunt.html">
 	<ons-page>

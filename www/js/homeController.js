@@ -1,5 +1,5 @@
 
-module.controller('homeController', function($scope, $http) {
+module.controller('homeController', function($scope, $http, $localStorage, $sessionStorage) {
 
   var url = "https://api.producthunt.com/v1/posts";
   topicFilter = false;
