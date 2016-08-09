@@ -33,7 +33,7 @@
 </body>
 
 <ons-template id="home.html">
-	<ons-page ng-controller="homeController">
+	<ons-page ng-controller="homeController" style="background-color: orange;">
 		<ons-toolbar>
 			<div class="left">
                 <ons-toolbar-button ng-click="carousel.prev()">
@@ -42,7 +42,7 @@
 			</div>
 			<div class="center">
 				<ons-icon icon="fa-product-hunt"></ons-icon>
-					Hackers & Hunters (Welcome {{$storage.username}})
+					HnH (Welcome {{$storage.username}})
 			</div>
 			<div class="right">
 		        <ons-toolbar-button ng-click="carousel.next()">
@@ -51,7 +51,15 @@
 		    </div>
 		</ons-toolbar>
 
-		<ons-carousel direction="vertical" var="carousel" fullscreen swipeable auto-scroll>
+		<ons-pull-hook ng-action="refreshHunt($done)" var="loader">
+		    <span ng-switch="loader.state">
+		        <span ng-switch-when="initial"><ons-icon size="35px" icon="ion-arrow-down-a"></ons-icon> Pull down to refresh</span>
+		        <span ng-switch-when="preaction"><ons-icon size="35px" icon="ion-arrow-up-a"></ons-icon> Release to refresh</span>
+		        <span ng-switch-when="action"><ons-icon size="35px" spin="true" icon="ion-load-d"></ons-icon> Fetching hunt ...</span>
+		    </span>
+	  </ons-pull-hook>
+
+		<ons-carousel direction="vertical" var="carousel" fullscreen auto-scroll>
 			<ons-carousel-item style="background-color: orange;">
 				<div class="absolute-center" id="hunt-summary" ng-show="randomhunt != null">
 					<section>
@@ -91,14 +99,16 @@
 </ons-template>
 
 <ons-template id="welcome.html">
-	<ons-page">
-      	<div class="absolute-center">
-        	<ons-input placeholder="What should we call you? " float ng-model="username"></ons-input>
+	<ons-page>
+      	<div class="absolute-center small">
+        	<ons-input placeholder="What should we call you? " maxlength="12" float ng-model="username"></ons-input>
+        	<!-- <br/>
+        	<ons-input placeholder="Email? " type="email" float ng-model="useremail"></ons-input> -->
         	<br/>
         	<ons-button ng-if="username == null || username == ''"  ng-click="nav.pushPage('home.html')">
 	        	Skip
 	        </ons-button>
-	        <ons-button ng-if="username != null && username != ''" ng-click="nav.pushPage('home.html'); $storage.username=username">
+	        <ons-button ng-if="username != null && username != ''" ng-click="nav.pushPage('home.html'); $storage.username=username; $storage.useremail=useremail">
 	        	Continue
 	        </ons-button>
       	</div>
