@@ -1,0 +1,13 @@
+
+- keep ts with each hunt
+ - expire old ones
+- support settings page
+ - update user name
+ - support email id
+ - clear saved
+ - show history
+ - show favs
+ - support tags based on topic
+ - support horizon
+- iframe issue: allow page to open in new page
+- support filters

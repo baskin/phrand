@@ -1,9 +1,47 @@
 
-module.controller('homeController', function($scope, $http, $localStorage, $sessionStorage) {
+module.controller('homeController', function($scope, $http) {
 
-  // $scope.$storage.huntq ||= []
-  $scope.refreshHunt = function($done) {
-      console.log("Refreshing hunt...")
+  $scope.nextHunt = function($done) {
+      console.log("HuntQ size " + $scope.$storage.huntq.length);
+      var q = $scope.$storage.huntq;
+
+      if (q.length > 0) {
+          var randomIndex = Math.floor(Math.random() * q.length);
+          var hunts = q.splice(randomIndex, 1);
+          console.log("HuntQ size after popping random hunt is " + $scope.$storage.huntq.length);
+          var hunt = hunts[0];
+          $scope.randomhunt = hunt;
+          var hasAudio = hunt.thumbnail.media_type == 'audio';
+          if (hasAudio) {
+              var audioUrl = hunt.thumbnail.metadata.url;
+              console.log("Audio meta detected " + audioUrl);
+              if (audioUrl.startsWith("http:")) {
+                  audioUrl = audioUrl.replace("http", "https");
+                  console.log("Will try to use https instead of http " + audioUrl);
+              }
+          }
+          $scope.randomhunt.hasAudio = hasAudio;
+          $scope.randomhunt.audioUrl = audioUrl;
+          if (null != $done) {
+              console.log("Calling callback done()")
+              $done();
+          }
+      }
+      else {
+          if (null != $done) {
+              console.error("No hunts to show");
+              console.log("Calling callback done()")
+              $done();
+          } 
+      }
+      if (q.length < 100) {
+          // build a healthy set of buffered hunts
+          $scope.updateHuntQ();
+      }
+  }
+
+  $scope.updateHuntQ = function() {
+      console.log("Updating HuntQ...")
       var url = "https://api.producthunt.com/v1/posts";
       topicFilter = false;
       // 208 angel investing
@@ -23,38 +61,20 @@ module.controller('homeController', function($scope, $http, $localStorage, $sess
           console.log("Received success from url " + url);
             // First function handles success
             body = response.data['posts'];
-            var ret = body[Math.floor(Math.random() * body.length)];
-            $scope.randomhunt = ret;
-            var hasAudio = ret.thumbnail.media_type == 'audio';
-            if (hasAudio) {
-                var audioUrl = ret.thumbnail.metadata.url;
-                console.log("Audio meta detected " + audioUrl);
-                if (audioUrl.startsWith("http:")) {
-                    audioUrl = audioUrl.replace("http", "https");
-                    console.log("Will try to use https instead of http " + audioUrl);
-                }
-            }
-            $scope.randomhunt.hasAudio = hasAudio;
-            $scope.randomhunt.audioUrl = audioUrl;
-            if (null != $done) {
-                console.log("Calling callback done()")
-                $done();
-            }
+            console.log("Fetched " + body.length + " hunts");
+            $scope.$storage.huntq = $scope.$storage.huntq.concat(body);
+            console.log("New HuntQ size " + $scope.$storage.huntq.length);
         },
         function(response) {
             //Second function handles error
             console.log("Received error from url " + url + " with error:" +  response.statustext);
-            if (null != $done) {
-                console.log("Calling callback done()")
-                $done();
-            }
         }
       );
   }
 
   $scope.loadsr = function() {
-    console.log("Swipe right detected");
-    // nav.replacePage('home.html', {animation: 'slide'})
+      console.log("Swipe right detected");
+      // nav.replacePage('home.html', {animation: 'slide'})
   }
 
   $scope.gotoHunt = function($hunt) {
@@ -64,8 +84,11 @@ module.controller('homeController', function($scope, $http, $localStorage, $sess
   }
 
   ons.ready(function() {
-    console.log("homeController ready");
-    $scope.refreshHunt();
+      console.log("HomeController ready");
+      console.log("Loaded HuntQ with size " + $scope.$storage.huntq.length);
+      if ($scope.$storage.huntq.length < 100) {
+          $scope.updateHuntQ();
+      }
+      $scope.nextHunt();
   });
-
 });
