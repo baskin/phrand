@@ -30,15 +30,6 @@ html{
 		font-size:60%;
 	}
 
-	p { 
-		color: #685206; 
-		font-family: 'Helvetica Neue', sans-serif; 
-		font-size: 0.5em; 
-		margin: 0 0 24px; 
-		text-align: justify; 
-		text-justify: inter-word; 
-	}
-
 	sup { 
 		color: #fff; 
 		font-family: 'Open Sans', sans-serif; 

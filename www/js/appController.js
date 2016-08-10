@@ -4,7 +4,8 @@ module.controller('appController', function($scope, $localStorage, $sessionStora
   $scope.$storage = $localStorage;
   $scope.$storage = $localStorage.$default({
       username: "hunter",
-      huntq: []
+      huntq: [],
+      history: []
   });
   console.log("Stored username " + $localStorage.username);
   $scope.firstpage = $scope.$storage.username == null ? "welcome.html" : "home.html";

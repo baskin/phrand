@@ -1,7 +1,16 @@
 
-module.controller('homeController', function($scope, $http) {
+module.controller('homeController', function($scope, $http, $location) {
 
-  $scope.nextHunt = function($done) {
+  $scope.nextHunt = function($done, $delay) {
+      // Introduce optional artifical delay to 'look' like 
+      // hunt is being fetched online.
+      $delay = $delay || 0;
+      setTimeout(function() { 
+          $scope.nextHuntInner($done);
+      }, $delay);
+  }
+
+  $scope.nextHuntInner = function($done) {
       console.log("HuntQ size " + $scope.$storage.huntq.length);
       var q = $scope.$storage.huntq;
 
@@ -10,6 +19,11 @@ module.controller('homeController', function($scope, $http) {
           var hunts = q.splice(randomIndex, 1);
           console.log("HuntQ size after popping random hunt is " + $scope.$storage.huntq.length);
           var hunt = hunts[0];
+          $scope.$storage.history.push(hunt);
+          if ($scope.$storage.history.length > 25) {
+              // history size full, pop
+              $scope.$storage.history.pop();
+          }
           $scope.randomhunt = hunt;
           var hasAudio = hunt.thumbnail.media_type == 'audio';
           if (hasAudio) {
@@ -72,16 +86,16 @@ module.controller('homeController', function($scope, $http) {
       );
   }
 
-  $scope.loadsr = function() {
-      console.log("Swipe right detected");
-      // nav.replacePage('home.html', {animation: 'slide'})
-  }
-
   $scope.gotoHunt = function($hunt) {
       console.log("Navigating to hunt " + $hunt.redirect_url);
       $scope.randomhunt = $hunt;
       $scope.nav.pushPage('hunt.html');
   }
+
+  $scope.go = function(path) {
+      console.log("going to path " + path);
+      $location.path( path );
+  };
 
   ons.ready(function() {
       console.log("HomeController ready");
