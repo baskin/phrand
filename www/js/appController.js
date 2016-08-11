@@ -1,14 +1,12 @@
-// var module = ons.bootstrap('app');
 module.controller('appController', function($scope, $localStorage, $sessionStorage) {
 
   $scope.$storage = $localStorage;
   $scope.$storage = $localStorage.$default({
-      username: "hunter",
       huntq: [],
       history: []
   });
   console.log("Stored username " + $localStorage.username);
-  $scope.firstpage = $scope.$storage.username == null ? "welcome.html" : "home.html";
+  $scope.$firstpage = $scope.$storage.username == null ? "welcome.html" : "home.html";
 
   // $scope.load = function(page) {
   //   console.log("scope " + $scope + " loaded");
@@ -22,6 +20,6 @@ module.controller('appController', function($scope, $localStorage, $sessionStora
 });
 
 ons.ready(function() {
-    console.log("appController ready");
+    console.log("AppController ready");
   }
 );

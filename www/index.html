@@ -19,6 +19,7 @@
 	<script src="js/app.js"></script>
 	<script src="js/appController.js"></script>
 	<script src="js/homeController.js"></script>
+	<script src="js/welcomeController.js"></script>
 
 	<link rel="stylesheet" href="components/loader.css">
 	<link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
@@ -109,18 +110,21 @@
 </ons-template>
 
 <ons-template id="welcome.html">
-	<ons-page>
-      	<div class="absolute-center small">
+	<ons-page ng-controller="welcomeController">
+      	<div id="onboard" class="absolute-center small" ng-if="$storage.username == null">
         	<ons-input placeholder="What should we call you? " maxlength="12" float ng-model="username"></ons-input>
         	<!-- <br/>
         	<ons-input placeholder="Email? " type="email" float ng-model="useremail"></ons-input> -->
         	<br/>
-        	<ons-button ng-if="username == null || username == ''"  ng-click="nav.pushPage('home.html')">
+        	<ons-button ng-if="username == null || username == ''"  ng-click="nav.pushPage('home.html'); $storage.username='hunter'">
 	        	Skip
 	        </ons-button>
 	        <ons-button ng-if="username != null && username != ''" ng-click="nav.pushPage('home.html'); $storage.username=username; $storage.useremail=useremail">
 	        	Continue
 	        </ons-button>
+      	</div>
+      	<div id="onboard" class="absolute-center small" ng-if="$storage.username != null">
+      		<h1>Welcome {{$storage.username}}</h1>
       	</div>
 	</ons-page>
 </ons-template>

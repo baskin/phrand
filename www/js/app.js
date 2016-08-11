@@ -25,3 +25,5 @@ module.directive('hideOnError', function($timeout) {
            })
        }
 }});
+
+console.log("App module created");
