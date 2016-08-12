@@ -36,21 +36,17 @@ module.controller('homeController', function($scope, $http, $location) {
           }
           $scope.randomhunt.hasAudio = hasAudio;
           $scope.randomhunt.audioUrl = audioUrl;
-          if (null != $done) {
-              console.log("Calling callback done()")
-              $done();
-          }
       }
       else {
-          if (null != $done) {
-              console.error("No hunts to show");
-              console.log("Calling callback done()")
-              $done();
-          } 
+          console.error("No hunts to show");
       }
       if (q.length < 100) {
           // build a healthy set of buffered hunts
           $scope.updateHuntQ();
+      }
+      if (null != $done) {
+          console.log("Calling callback done()")
+          $done();
       }
   }
 
