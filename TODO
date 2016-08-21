@@ -3,13 +3,16 @@
    - expire old ones
 - save image with each hunt for offline mode
 - randomize more
-- support settings page
-  - update user name
-  - support email id
-  - clear saved
-  - show history
-  - show favs
-  - support tags based on topic
-  - support horizon
 - iframe issue: allow page to open in new page
 - support filters
+- show tutorial
+- show history
+- show favs
+- settings
+  - welcome settings (name, email)
+  - history size
+  - clear cache
+  - content
+    - sources
+    - topics
+    - horizon

@@ -1,6 +1,21 @@
 
 module.controller('homeController', function($scope, $http, $location) {
 
+  $scope.useHunt = function(hunt) {
+      $scope.randomhunt = hunt;
+      var hasAudio = hunt.thumbnail.media_type == 'audio';
+      if (hasAudio) {
+          var audioUrl = hunt.thumbnail.metadata.url;
+          console.log("Audio meta detected " + audioUrl);
+          if (audioUrl.startsWith("http:")) {
+              audioUrl = audioUrl.replace("http", "https");
+              console.log("Will try to use https instead of http " + audioUrl);
+          }
+      }
+      $scope.randomhunt.hasAudio = hasAudio;
+      $scope.randomhunt.audioUrl = audioUrl;
+  }
+
   $scope.nextHunt = function($done, $delay) {
       // Introduce optional artifical delay to 'look' like 
       // hunt is being fetched online.
@@ -19,23 +34,12 @@ module.controller('homeController', function($scope, $http, $location) {
           var hunts = q.splice(randomIndex, 1);
           console.log("HuntQ size after popping random hunt is " + $scope.$storage.huntq.length);
           var hunt = hunts[0];
-          $scope.$storage.history.push(hunt);
+          $scope.$storage.history.unshift(hunt);
           if ($scope.$storage.history.length > 25) {
               // history size full, pop
               $scope.$storage.history.pop();
           }
-          $scope.randomhunt = hunt;
-          var hasAudio = hunt.thumbnail.media_type == 'audio';
-          if (hasAudio) {
-              var audioUrl = hunt.thumbnail.metadata.url;
-              console.log("Audio meta detected " + audioUrl);
-              if (audioUrl.startsWith("http:")) {
-                  audioUrl = audioUrl.replace("http", "https");
-                  console.log("Will try to use https instead of http " + audioUrl);
-              }
-          }
-          $scope.randomhunt.hasAudio = hasAudio;
-          $scope.randomhunt.audioUrl = audioUrl;
+          $scope.useHunt(hunt);
       }
       else {
           console.error("No hunts to show");
@@ -96,9 +100,15 @@ module.controller('homeController', function($scope, $http, $location) {
   ons.ready(function() {
       console.log("HomeController ready");
       console.log("Loaded HuntQ with size " + $scope.$storage.huntq.length);
+      console.log("Custom data passed: " + $scope.nav.topPage.data);
       if ($scope.$storage.huntq.length < 100) {
           $scope.updateHuntQ();
       }
-      $scope.nextHunt();
+      if ($scope.nav.topPage.data != null && $scope.nav.topPage.data.randomhunt != null) {
+          $scope.useHunt($scope.nav.topPage.data.randomhunt);
+      }
+      else {
+        $scope.nextHunt();
+      }
   });
 });
