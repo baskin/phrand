@@ -1,10 +1,12 @@
 module.controller('welcomeController', function($scope) {
 
     console.log("WelcomeController loaded");
-    if ($scope.$storage.username != null) {
-        console.log("Skipping welcome, since found stored username " + $scope.$storage.username);
+    var configure = ($scope.nav.topPage.data != null && $scope.nav.topPage.data.configure == true) || $scope.$storage.username == null;
+    $scope.configure = configure;
+    if (!configure) {
+        console.log("Skipping welcome configuration");
         setTimeout(function() {
             $scope.nav.pushPage('home.html');
         }, 2000);
-    }
+	}
 });

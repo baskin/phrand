@@ -1,12 +1,11 @@
 
-- keep ts with each hunt
+- hunq: keep ts with each hunt
    - expire old ones
-- save image with each hunt for offline mode
+- huntq: save image with each hunt for offline mode
 - randomize more
 - iframe issue: allow page to open in new page
 - support filters
 - show tutorial
-- show history
 - show favs
 - settings
   - welcome settings (name, email)
