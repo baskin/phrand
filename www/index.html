@@ -87,7 +87,6 @@
                 <ons-toolbar-button ng-click="nav.pushPage('settings.html')">
                     <ons-icon size="21px" icon="fa-gear"></ons-icon>
                 </ons-toolbar-button>
-
             </div>
             <div class="right">
                 <ons-toolbar-button ng-click="carousel.next()">
@@ -110,13 +109,12 @@
         </ons-pull-hook>
 
         <ons-carousel direction="vertical" var="carousel" fullscreen auto-scroll overscrollable>
-            <ons-carousel-item style="background-color: orange;">
+            <ons-carousel-item> <!-- style="background-color: orange;"> -->
 
                 <!-- <div class="center" id="refresh" ng-show="randomhunt == null">
                     <ons-icon size="35px" icon="fa-refresh" spin="true"></ons-icon>
                 </div> -->
 
-                <!-- <ons-gesture-detector ng-swiperight="nextHunt()"> -->
                 <div class="absolute-center" id="hunt-summary" ng-show="randomhunt != null">
                     <section>
                         <ons-button modifier="light" ng-repeat="topic in randomhunt.topics">
@@ -132,7 +130,7 @@
                         <h2 data-fittext data-fittext-min="inherit">{{randomhunt.tagline}}</h2>
                     </div>
 
-                    <ons-button id="hunt-summary-thumb" ng-click="carousel.setActiveIndex(1)"> <!-- ng-click="gotoHunt(randomhunt)" -->
+                    <ons-button id="hunt-summary-thumb" ng-click="carousel.setActiveIndex(1)"> 
                         <img ng-src="{{randomhunt.thumbnail.image_url}}" alt="hunting for image..">
                     </ons-button>
                     <div id="podcast" ng-if="randomhunt.hasAudio">
@@ -143,9 +141,39 @@
                     </div>
 
                 </div>
-                <!-- </ons-gesture-detector> -->
 
-                <div>
+		<!-- <md-content class="md-padding" layout-xs="column" layout="row">
+		    <div flex-xs flex-gt-xs="50" layout="column">
+		      <md-card>
+		      	<div id="card-img">
+		        <img ng-src="{{randomhunt.thumbnail.image_url}}" class="md-card-image" alt="Washed Out">
+		        </div>
+		        <md-card-title>
+		          <md-card-title-text>
+		            <span class="md-headline">{{randomhunt.name}}</span>
+		          </md-card-title-text>
+		        </md-card-title>
+		        <md-card-content>
+		          <p>
+		            {{randomhunt.tagline}}
+		          </p>
+		        </md-card-content>
+		        <md-card-actions layout="row" layout-align="end center">
+		          <md-button class="md-icon-button" aria-label="Favorite">
+		            <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
+		          </md-button>
+		          <md-button class="md-icon-button" aria-label="Settings">
+		            <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+		          </md-button>
+		          <md-button class="md-icon-button" aria-label="Share">
+		            <md-icon md-svg-icon="img/icons/share-arrow.svg"></md-icon>
+		          </md-button>
+		        </md-card-actions>
+		      </md-card>
+		    </div>
+  		</md-content> -->
+
+                <!-- <div>
                 <ons-speed-dial position="bottom right" direction="up">
                     <ons-fab>
                       <ons-icon icon="md-share"></ons-icon>
@@ -163,7 +191,7 @@
                       <ons-icon icon="md-whatsapp"></ons-icon>
                     </ons-speed-dial-item>
               </ons-speed-dial>
-              </div>
+              </div> -->
 
             </ons-carousel-item>
             
@@ -195,7 +223,7 @@
         </ons-toolbar>
 
           <div id="onboard" class="absolute-center small" ng-if="configure">
-            <ons-input placeholder="What should we call you? " maxlength="12" float ng-model="username"></ons-input>
+            <ons-input placeholder="What should we call you ? " maxlength="12" float ng-model="username"></ons-input>
             <!-- <br/>
             <ons-input placeholder="Email? " type="email" float ng-model="useremail"></ons-input> -->
             <br/>
@@ -242,7 +270,6 @@
                 <div class="history-from">
                   <span class="history-name">{{hunt.name}}</span>
                 </div>
-
                 <div class="history-message">
                   {{hunt.tagline}}
                 </div>
